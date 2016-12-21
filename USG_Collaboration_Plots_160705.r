@@ -1,4 +1,4 @@
-#Redo of figures following reviewer comments
+#Redo of figures following reviewer comments #Round 2
 #NOTE I looked at changing how homogenous impacts are calculated but didn't end up using this in the analysis
 
 inpDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/1_high_finalcosts_150420.csv"
@@ -43,6 +43,9 @@ altNames <- c("3PortShared", "3PortUnshare")
 sapply(list(data1, data3), nrow)
 
 mycols <- rainbow(4)
+
+#top 5 high impact mines = Kingsgate, Eyre Iron, Mungana, Minotaur, Illuka
+#big 5 high value mines = Bhp Billiton, Arrium, Illuka, Iron Road, OzMinerals 
 
 ###################################
 ###################################
@@ -282,12 +285,12 @@ DFHetero <- rbind(DFHetero, data.frame(
 		Impact = c(DF5portlinks$HeteroSharedImpact, DF5portlinks$HomogSharedImpact),
 		HetorHom = rep(c("Hetero", "Homog"), each=5)
 		))	
-		subHetero <- subset(DFHetero, DFHetero$HetorHom=="Hetero")[c(1:29, 31:33),] #remove outlier at 1589km
+subHetero <- subset(DFHetero, DFHetero$HetorHom=="Hetero")[c(1:29, 31:33),] #remove outlier at 1589km
 
 mod1 <- lm(subHetero$Impact~0+subHetero$Len) #set intercept to zero
-modpred <- cbind(subHetero,predict(mod1,interval="confidence"))
+modpred <- cbind(subHetero,predict(mod1,interval="confidence"), Scenario=rep(c("Independent", "Shared"), times=c(28, 4)))
 
-p <- ggplot(modpred, aes(Len, Impact, shape=HetorHom, colour=HetorHom)) +
+p <- ggplot(modpred, aes(Len, Impact, shape=Scenario, colour=HetorHom)) +
 	geom_ribbon(aes(ymin=lwr,ymax=upr),fill = "gray80", colour="gray80")+
 	geom_abline(slope=coef(mod1), intercept=0, colour="black") +
 	geom_point(color="black", size=4) +#add points
@@ -298,28 +301,28 @@ p <- ggplot(modpred, aes(Len, Impact, shape=HetorHom, colour=HetorHom)) +
 	theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
 	coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
 	labs(x="Infrastructure length (km)", y="Biodiversity impact")+
-	theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1))+	#move xylabels away from graph
+	theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+
 	theme(legend.position="none")#gets rid of legend
 	#theme(legend.title=element_blank())#get rid of legend title
 	#theme(legend.position=c(.25, .85), legend.title = element_text(size=14, face="bold"), legend.key = element_blank())
 	#theme(legend.background = element_rect(colour="grey70", size=.5, linetype="solid"))+#add box
 	
 	
-outPath <- paste0(outDir, "USG_collab_Hetero_Homog_vs_Length_bothscenarios_fig_5lines.png")
+outPath <- paste0(outDir, "USG_collab_Hetero_Homog_vs_Length_bothscenarios_fig_5lines_v2.png")
 	ggsave(filename=outPath)
-outPath <- paste0(outDir, "USG_collab_Hetero_Homog_vs_Length_bothscenarios_fig_5lines.pdf")
+outPath <- paste0(outDir, "USG_collab_Hetero_Homog_vs_Length_bothscenarios_fig_5lines_v2.pdf")
 	ggsave(filename=outPath)
 
 #######################
 #Plot of benefit of collaborating by 5 mine-port links
 #######################
 #totalimpact <- sum(DF5portlinks$HeteroUnsharedImpact)	
-plotDf <- with(DF5portlinks, data.frame(Group3=rep(Group_3, 2), PercContrib=c(HeteroSharedImpact, HeteroUnsharedImpact, LowImpact, RestrictedAccess), Scen=rep(c("Shared", "Independent", "LowImpact", "JRestrictedAccess"), each=5)))
+plotDf <- with(DF5portlinks, data.frame(Group3=rep(Group_3, 2), PercContrib=c(HeteroSharedImpact, HeteroUnsharedImpact, LowImpact, RestrictedAccess), Scen=rep(c("Shared", "Independent", "LowImpact", "RestrictedAccess"), each=5)))
 
 p <- ggplot(plotDf, aes(x=Group3, y=PercContrib, fill=Scen))+
 		geom_bar(stat='identity', position='dodge')+
 		scale_fill_grey(name="Scenario", 
-                         breaks=c("Independent", "JRestrictedAccess", "LowImpact", "Shared"),
+                         breaks=c("Independent", "RestrictedAccess", "LowImpact", "Shared"),
                          labels=c("Independent", "Restricted access", "Low impact", "Shared"), start=0.8, end=0.2)+
 		theme_classic(17) + #get rid of grey bkg and gridlines
 		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+

@@ -9,7 +9,7 @@ outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final cos
 
 
 ###########
-#Extract only the rows that are in scenario 5 (these files were created by combining scenario 1 & scenario 3 files) - only need to do this once
+#Extract only the rows that are in scenario 5 (these files were created by manually combining scenario 1 & scenario 3 files) - only need to do this once
 
 # dataTemplate <- read.csv(inpDir3) #list of the FIDs and mines associated with each
 # dataNum <- read.csv(inpDir1b)
@@ -21,6 +21,9 @@ outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final cos
 # write.csv(dataNumNew, inpDir1b, row.names=FALSE)
 # write.csv(dataOriginalNew, inpDir2, row.names=FALSE)
 
+###
+#For scenario 7 low impact shared, I only needed to add FID 27 from scenario 3 unshared, and delele some rows from scenario 1 shared
+#this was done manually in excel
 
 ###########
 
