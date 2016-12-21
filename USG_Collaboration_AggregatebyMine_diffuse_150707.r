@@ -1,10 +1,10 @@
-inpDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_bymine.csv"
-inpDir1b <-"C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_data.csv"
-inpDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_diffuse_biodiversity_totals.csv"
-#inpDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_infrastructure_v2.csv"
-outDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_diffuse_biodiversity_bymine_split.csv"
-outDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_diffuse_biodiversity_bymine.csv"
-outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/5_partial_finalcosts.csv"
+inpDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_bymine.csv"
+inpDir1b <-"C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_data.csv"
+inpDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_totals.csv"
+#inpDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_infrastructure_v2.csv"
+outDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_bymine_split.csv"
+outDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_bymine.csv"
+outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/7_lowimpact_shared_finalcosts.csv"
 
 
 
@@ -32,7 +32,8 @@ dataOriginal <- read.csv(inpDir2)
 dataNum <- read.csv(inpDir1b)
 
 #Merge dataset
-dataMerge <- merge(dataNum, dataOriginal[,c(1,2,12,13)], by.x=c("Id","Scen"), by.y=c("Id","Scen"))
+#dataMerge <- merge(dataNum, dataOriginal[,c(1,2,12,13)], by.x=c("Id","Scen"), by.y=c("Id","Scen")) #scenario 5
+dataMerge <- merge(dataNum, dataOriginal[,c(1,2,5,6)], by.x=c("Id","Scen"), by.y=c("Id","Scen")) #scenario 7
 
 #divide each column by the number of mines sharing the line
 oldData <- dataMerge[,c("Num_shared", "Area_km2", "Length_km", "Total.area.per.scenario", "Average.loss.per.species", "Sum.species.loss", "MEAN_NPV_p", "SUM_AgriPr", "Number.of.properties", "SumSpLoss", "SumSpLossDiffuse"),]
@@ -71,7 +72,8 @@ write.csv(outAgg, outDir3, row.names=FALSE)
 
 #####################
 #Calculate impacts by species
-impactBySpecies <- matrix(colSums(dataOriginal[,14:745]), ncol=4, byrow=TRUE)
+#impactBySpecies <- matrix(colSums(dataOriginal[,14:745]), ncol=4, byrow=TRUE) #scenario 5
+impactBySpecies <- matrix(colSums(dataOriginal[,7:738]), ncol=4, byrow=TRUE) #scenario 7
 
 #total number of species impacted
 length(which(rowSums(impactBySpecies)!=0))
