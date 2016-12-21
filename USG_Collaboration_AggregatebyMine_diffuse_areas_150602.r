@@ -1,9 +1,9 @@
 #For scenarios 1 and 2 only. Manually calculate 3 and 4. 
-inpDir1<- "Z:/ayesha/USG_Collaboration/Analysis/tables/1_bymine.csv"
-inpDir1b<-"Z:/ayesha/USG_Collaboration/Analysis/tables/1_high_data.csv"
-inpDir2<- "Z:/ayesha/USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_total_byspecies_areas.csv"
-outDir1 <- "Z:/ayesha/USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_bymine_split_area.csv"
-outDir2 <- "Z:/ayesha/USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_bymine_area.csv"
+inpDir1<- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_bymine.csv"
+inpDir1b<-"C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_data.csv"
+inpDir2<- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_total_byspecies_areas.csv"
+outDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_bymine_split_area.csv"
+outDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_bymine_area.csv"
 
 dataSplit <- read.csv(inpDir1)
 dataNum <- read.csv(inpDir1b)
