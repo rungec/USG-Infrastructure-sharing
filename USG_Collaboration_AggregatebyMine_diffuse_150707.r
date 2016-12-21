@@ -1,7 +1,7 @@
 inpDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_bymine.csv"
 inpDir1b <-"C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_data.csv"
 inpDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_diffuse_biodiversity_totals.csv"
-inpDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_infrastructure_v2.csv"
+#inpDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_infrastructure_v2.csv"
 outDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_diffuse_biodiversity_bymine_split.csv"
 outDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/5_partial_diffuse_biodiversity_bymine.csv"
 outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/5_partial_finalcosts.csv"
@@ -9,7 +9,7 @@ outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final cos
 
 
 ###########
-#Extract only the rows that are in scenario 5 (these files were created by manually combining scenario 1 & scenario 3 files) - only need to do this once
+#Extract only the rows that are in scenario 5 (dataNum & dataOriginal were files  created by manually combining scenario 1 & scenario 3 files, this section deletes the unneeded rows) - only need to do this once
 
 # dataTemplate <- read.csv(inpDir3) #list of the FIDs and mines associated with each
 # dataNum <- read.csv(inpDir1b)
