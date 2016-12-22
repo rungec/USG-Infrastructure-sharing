@@ -115,7 +115,7 @@ impactBySpeciesS1 <- matrix(colSums(spData1[,6:737]), ncol=4, byrow=TRUE)
 impactBySpeciesS3 <- matrix(colSums(spData3[,6:737]), ncol=4, byrow=TRUE)
 impactBySpeciesS5 <- matrix(colSums(spData5[,14:745]), ncol=4, byrow=TRUE)
 impactBySpeciesS6 <- matrix(colSums(spData6[,6:737]), ncol=4, byrow=TRUE)
-impactBySpeciesS7 <- matrix(colSums(spData7[,6:737]), ncol=4, byrow=TRUE)
+impactBySpeciesS7 <- matrix(colSums(spData7[,7:738]), ncol=4, byrow=TRUE)
 
 #total number of species impacted
 length(which(rowSums(impactBySpeciesS1)!=0))
@@ -338,7 +338,13 @@ DF5portlinks <- data.frame(aggregate(DFben$Len, by=list(DFben$groupings.Group_3)
 			)
 				
 names(DF5portlinks)[1:2] <- c("Group_3", "Len")
-write.csv(DF5portlinks, "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
+write.csv(DF5portlinks, "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Totals_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
+
+#Summary stats for table 1
+
+DFsummaryStats <- data.frame()
+
+
 	
 #######################
 #Plot of benefit of collaborating by 5 mine-port links
