@@ -190,7 +190,7 @@ sd(rowSums(impactBySpeciesS3)[which(rowSums(impactBySpeciesS3)!=0)])
 #######################
 
 #p2 <- ggplot(DFben, aes(x=finBen3portPer, y=bioBen3port, color=groupings.Group_3, shape=groupings.Group_3)) +
-p2 <- ggplot(DFben, aes(x=finBen3portPer, y=bioBen3port, shape=groupings.Group_3)) +
+p2 <- ggplot(DFben, aes(x=finBen3portPer, y=bioBen3port, shape=groupings.Group_3, color=groupings.Group_3)) +
 	geom_blank() +
 	#theme_bw(17) + #remove grey #remove grids
 	theme_classic(17) + #remove grey #remove grids
@@ -204,18 +204,19 @@ p2 <- ggplot(DFben, aes(x=finBen3portPer, y=bioBen3port, shape=groupings.Group_3
 	#annotate("text", label="POSITIVE INCENTIVES", x=20, y=0.3, angle=90, size=6)+
 	#annotate("text", label="NO ACTION", x=30, y=0.05, size=6)+
 	#annotate("text", label="EXTENSION", x=70, y=0.5, size=6)+
-	geom_abline(slope=-0.003464, intercept=0.354103, colour="grey70", linetype='dashed')+
+	#geom_abline(slope=-0.003464, intercept=0.354103, colour="grey70", linetype='dashed')+
 	#geom_smooth(method="lm", se=FALSE, colour="grey70", linetype='dashed')+
-	geom_point(size=4, colour='black', show.legend = FALSE)+
-	scale_shape_manual(values=c(4,2,3,1,0))
-	#scale_color_manual(values=c("darkgoldenrod1", "cyan4","darkblue", "cyan2", "darkgray"))
+	geom_point(size=4, show.legend = FALSE)+
+	#geom_point(size=4, colour='black', show.legend = FALSE)+
+	scale_shape_manual(values=c(17,17,15,16,15))+
+	scale_color_manual(values=c("darkgoldenrod1", "cyan4","darkblue", "cyan2", "darkgray"))
 
 # outPath <- paste0(plotOutDir, "USG_collab_Pannell_withData_fig.png")
-#outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig.png")
-outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig_withline.png")
+outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig.png")
+#outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig_withline.png")
 	ggsave(filename=outPath)
-#outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig.pdf")
-outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig_withline.pdf")
+outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig.pdf")
+#outPath <- paste0(plotOutDir, "USG_collab_PublicvsPrivate_fig_withline.pdf")
 	ggsave(filename=outPath)
 dev.off()
 	
