@@ -322,7 +322,7 @@ scen6data <- dataAll[dataAll$Scenario==3,]
 scen6data[scen6data$Mine %in% c("Eyre Iron", "Iluka", "Minotaur", "Mungana", "Kingsgate"),"SumSpLoss183SpDiffuse"] <- 0
 scen5 <- read.csv(scen5Dir, header=TRUE)
 scen5data <- scen5[order(scen5$Mine),]
-scen7 <- read.csv(scen7Dir, header=TRUE)
+scen7 <- read.csv(scen7Dir, header=TRUE, stringsAsFactors=FALSE)
 blankrows <- data.frame(c("Eyre Iron", "Iluka", "Minotaur", "Mungana", "Kingsgate"), 0,0,0,0,0,0,0,0,0,0,0,0)
 names(blankrows) <- names(scen7)
 scen7 <- rbind(scen7,blankrows) 
@@ -340,11 +340,6 @@ DF5portlinks <- data.frame(aggregate(DFben$Len, by=list(DFben$groupings.Group_3)
 				
 names(DF5portlinks)[1:2] <- c("Group_3", "Len")
 write.csv(DF5portlinks, "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Totals_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
-
-#Summary stats for table 1
-
-DFsummaryStats <- data.frame()
-
 
 	
 #######################
