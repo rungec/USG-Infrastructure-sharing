@@ -249,6 +249,81 @@ pdf(file=outPath)
 # dev.off()
 
 
+#######################
+#Summary & plot of scenario impacts by Port grouping
+#######################
+
+#with points added for the 5 shared mine-port links	
+scen6data <- dataAll[dataAll$Scenario==3,]
+scen6data[scen6data$Mine %in% c("Eyre Iron", "Iluka", "Minotaur", "Mungana", "Kingsgate"),"SumSpLoss183SpDiffuse"] <- 0
+scen5 <- read.csv(scen5Dir, header=TRUE)
+scen5data <- scen5[order(scen5$Mine),]
+scen7 <- read.csv(scen7Dir, header=TRUE, stringsAsFactors=FALSE)
+blankrows <- data.frame(c("Eyre Iron", "Iluka", "Minotaur", "Mungana", "Kingsgate"), 0,0,0,0,0,0,0,0,0,0,0,0)
+names(blankrows) <- names(scen7)
+scen7 <- rbind(scen7,blankrows) 
+scen7data <- scen7[order(scen7$Mine),]
+
+
+DF5portlinks <- data.frame(aggregate(DFben$Len, by=list(DFben$groupings.Group_3), FUN=sum), 
+				HeteroSharedImpact=aggregate(dataAll[dataAll$Scenario==1, "SumSpLoss183SpDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x, 
+				HomogImpact=aggregate(dataAll[dataAll$Scenario==1, "SumSpLoss183SpDiffHomog"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x, 
+				HeteroUnsharedImpact=aggregate(dataAll[dataAll$Scenario==3, "SumSpLoss183SpDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x,
+				LowImpact = aggregate(scen6data[, "SumSpLoss183SpDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x,
+				LowImpactShared = aggregate(scen7data[, "SumSpLoss183spDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x,
+				RestrictedAccess = aggregate(scen5data[, "SumSpLoss183spDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x
+			)
+				
+names(DF5portlinks)[1:2] <- c("Group_3", "Len")
+write.csv(DF5portlinks, "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Totals_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
+
+	
+#######################
+#Plot of benefit of collaborating by 5 mine-port links
+#######################
+#totalimpact <- sum(DF5portlinks$HeteroUnsharedImpact)	
+plotDf <- with(DF5portlinks, data.frame(Group3=rep(Group_3, 5), PercContrib=c(HeteroSharedImpact, HeteroUnsharedImpact, LowImpact, LowImpactShared, RestrictedAccess), Scen=rep(c("Shared", "Independent", "LowImpact", "LowImpactShared", "RestrictedAccess"), each=5)))
+plotDf$ScenOrdered <- factor(plotDf$Scen, levels=c("Independent", "RestrictedAccess", "LowImpact", "LowImpactShared", "Shared"))
+
+#Plot for supp info
+p <- ggplot(plotDf, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
+		geom_bar(stat='identity', position='dodge')+
+		scale_fill_grey(name="Scenario", 
+                         breaks=c("Independent", "RestrictedAccess", "LowImpact", "LowImpactShared", "Shared"),
+                         labels=c("Independent", "Restricted access", "Low impact independent", "Low Impact shared", "Shared"), start=0.8, end=0.2)+
+		theme_classic(17) + #get rid of grey bkg and gridlines
+		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+	#coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
+		labs(x="Mine-port link region", y="Biodiversity impact")+
+		theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+#move xylabels away from graph
+		theme(legend.position="right", legend.text=element_text(size=14))+#use 'none' to get rid of legend
+		theme(legend.title=element_blank())#get rid of legend title
+	
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_suppinfo.png")
+	ggsave(filename=outPath)
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_suppinfo.pdf")
+	ggsave(filename=outPath)	
+
+#Plot for manuscript
+plotDfSub <- plotDf[plotDf$Scen %in% c("Independent", "RestrictedAccess", "LowImpact", "Shared"),]
+p <- ggplot(plotDfSub, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
+		geom_bar(stat='identity', position='dodge')+
+		scale_fill_grey(name="Scenario", 
+                         breaks=c("Independent", "RestrictedAccess", "LowImpact", "LowImpactShared", "Shared"),
+                         labels=c("Independent", "Restricted access", "Low impact", "LowImpactShared", "Shared"), start=0.8, end=0.2)+
+		theme_classic(17) + #get rid of grey bkg and gridlines
+		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+	#coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
+		labs(x="Mine-port link region", y="Biodiversity impact")+
+		theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+#move xylabels away from graph
+		theme(legend.position="bottom", legend.text=element_text(size=14))+#use 'none' to get rid of legend
+		theme(legend.title=element_blank())#get rid of legend title
+	
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig.png")
+	ggsave(filename=outPath)
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig.pdf")
+	ggsave(filename=outPath)	
+
 
 ################
 #Model & plot of relationship between biodiversity & length
@@ -313,80 +388,6 @@ outPath <- paste0(plotOutDir, "USG_collab_Hetero_Homog_vs_Length_bothscenarios_f
 	ggsave(filename=outPath)
 
 		
-#######################
-#Summary & plot of scenario impacts by Port grouping
-#######################
-
-#with points added for the 5 shared mine-port links	
-scen6data <- dataAll[dataAll$Scenario==3,]
-scen6data[scen6data$Mine %in% c("Eyre Iron", "Iluka", "Minotaur", "Mungana", "Kingsgate"),"SumSpLoss183SpDiffuse"] <- 0
-scen5 <- read.csv(scen5Dir, header=TRUE)
-scen5data <- scen5[order(scen5$Mine),]
-scen7 <- read.csv(scen7Dir, header=TRUE, stringsAsFactors=FALSE)
-blankrows <- data.frame(c("Eyre Iron", "Iluka", "Minotaur", "Mungana", "Kingsgate"), 0,0,0,0,0,0,0,0,0,0,0,0)
-names(blankrows) <- names(scen7)
-scen7 <- rbind(scen7,blankrows) 
-scen7data <- scen7[order(scen7$Mine),]
-
-
-DF5portlinks <- data.frame(aggregate(DFben$Len, by=list(DFben$groupings.Group_3), FUN=sum), 
-				HeteroSharedImpact=aggregate(dataAll[dataAll$Scenario==1, "SumSpLoss183SpDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x, 
-				HomogImpact=aggregate(dataAll[dataAll$Scenario==1, "SumSpLoss183SpDiffHomog"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x, 
-				HeteroUnsharedImpact=aggregate(dataAll[dataAll$Scenario==3, "SumSpLoss183SpDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x,
-				LowImpact = aggregate(scen6data[, "SumSpLoss183SpDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x,
-				LowImpactShared = aggregate(scen7data[, "SumSpLoss183spDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x,
-				RestrictedAccess = aggregate(scen5data[, "SumSpLoss183spDiffuse"]/100,  by=list(DFben$groupings.Group_3), FUN=sum)$x
-			)
-				
-names(DF5portlinks)[1:2] <- c("Group_3", "Len")
-write.csv(DF5portlinks, "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Totals_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
-
-	
-#######################
-#Plot of benefit of collaborating by 5 mine-port links
-#######################
-#totalimpact <- sum(DF5portlinks$HeteroUnsharedImpact)	
-plotDf <- with(DF5portlinks, data.frame(Group3=rep(Group_3, 5), PercContrib=c(HeteroSharedImpact, HeteroUnsharedImpact, LowImpact, LowImpactShared, RestrictedAccess), Scen=rep(c("Shared", "Independent", "LowImpact", "LowImpactShared", "RestrictedAccess"), each=5)))
-plotDf$ScenOrdered <- factor(plotDf$Scen, levels=c("Independent", "RestrictedAccess", "LowImpact", "LowImpactShared", "Shared"))
-
-#Plot for supp info
-p <- ggplot(plotDf, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
-		geom_bar(stat='identity', position='dodge')+
-		scale_fill_grey(name="Scenario", 
-                         breaks=c("Independent", "RestrictedAccess", "LowImpact", "LowImpactShared", "Shared"),
-                         labels=c("Independent", "Restricted access", "Low impact independent", "Low Impact shared", "Shared"), start=0.8, end=0.2)+
-		theme_classic(17) + #get rid of grey bkg and gridlines
-		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-	#coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
-		labs(x="Mine-port link region", y="Biodiversity impact")+
-		theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+#move xylabels away from graph
-		theme(legend.position="right", legend.text=element_text(size=14))+#use 'none' to get rid of legend
-		theme(legend.title=element_blank())#get rid of legend title
-	
-outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_suppinfo.png")
-	ggsave(filename=outPath)
-outPath <- paste0(plotOutDir, "UUSG_collab_Shared_vs_Unshared_5mineportlinks_fig_suppinfo.pdf")
-	ggsave(filename=outPath)	
-
-#Plot for manuscript
-plotDfSub <- plotDf[plotDf$Scen %in% c("Independent", "RestrictedAccess", "LowImpact", "Shared"),]
-p <- ggplot(plotDfSub, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
-		geom_bar(stat='identity', position='dodge')+
-		scale_fill_grey(name="Scenario", 
-                         breaks=c("Independent", "RestrictedAccess", "LowImpact", "LowImpactShared", "Shared"),
-                         labels=c("Independent", "Restricted access", "Low impact", "LowImpactShared", "Shared"), start=0.8, end=0.2)+
-		theme_classic(17) + #get rid of grey bkg and gridlines
-		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-	#coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
-		labs(x="Mine-port link region", y="Biodiversity impact")+
-		theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+#move xylabels away from graph
-		theme(legend.position="bottom", legend.text=element_text(size=14))+#use 'none' to get rid of legend
-		theme(legend.title=element_blank())#get rid of legend title
-	
-outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig.png")
-	ggsave(filename=outPath)
-outPath <- paste0(plotOutDir, "UUSG_collab_Shared_vs_Unshared_5mineportlinks_fig.pdf")
-	ggsave(filename=outPath)	
 	
 #######################
 #Plot of collaboration benefit per number of partners
