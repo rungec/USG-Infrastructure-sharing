@@ -68,6 +68,7 @@ Made .csvs using *USG_Collaboration_AggregatebyMine_diffuse_150707.r*
 Based on scenario 3, but with lines associated with "Iluka", "Mungana", "Eyre Iron", "Kingsgate", "Minotaur" deleted.
 Manually deleted unwanted rows from 3_low__diffuse_biodiversity_totals.csv
 > 6_lowimpact_diffuse_biodiversity_totals.csv
+> 6_lowimpact_independent_finalcosts.csv
 The rest of the data is pulled from Scenario 3, using script *USG_Collaboration_Plots_160705.r* on Lines 320-328
 
 ##Scenario 7:

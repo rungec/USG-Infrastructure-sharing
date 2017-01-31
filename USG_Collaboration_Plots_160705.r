@@ -304,7 +304,27 @@ outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_
 outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_suppinfo.pdf")
 	ggsave(filename=outPath)	
 
-#Plot for manuscript
+#Plot for manuscript - Submission 3
+plotDfSub <- plotDf[plotDf$Scen %in% c("Independent", "RestrictedAccess", "Shared"),]
+p <- ggplot(plotDfSub, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
+		geom_bar(stat='identity', position='dodge')+
+		scale_fill_grey(name="Scenario", 
+                         breaks=c("Independent", "RestrictedAccess", "Shared"),
+                         labels=c("Independent", "Restricted access", "Shared"), start=0.8, end=0.2)+
+		theme_classic(17) + #get rid of grey bkg and gridlines
+		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+	#coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
+		labs(x="Mine-port link region", y="Biodiversity impact")+
+		theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+#move xylabels away from graph
+		theme(legend.position="bottom", legend.text=element_text(size=14))+#use 'none' to get rid of legend
+		theme(legend.title=element_blank())#get rid of legend title
+	
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_sub3.png")
+	ggsave(filename=outPath)
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_sub3.pdf")
+	ggsave(filename=outPath)	
+	
+#Plot for manuscript - Submission 2
 plotDfSub <- plotDf[plotDf$Scen %in% c("Independent", "RestrictedAccess", "LowImpact", "Shared"),]
 p <- ggplot(plotDfSub, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
 		geom_bar(stat='identity', position='dodge')+
@@ -319,9 +339,9 @@ p <- ggplot(plotDfSub, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
 		theme(legend.position="bottom", legend.text=element_text(size=14))+#use 'none' to get rid of legend
 		theme(legend.title=element_blank())#get rid of legend title
 	
-outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig.png")
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_sub2.png")
 	ggsave(filename=outPath)
-outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig.pdf")
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_sub2.pdf")
 	ggsave(filename=outPath)	
 
 
