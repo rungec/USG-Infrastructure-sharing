@@ -1,17 +1,17 @@
 #Redo of figures following reviewer comments #Round 2
 #NOTE I looked at changing how homogenous impacts are calculated but didn't end up using this in the analysis
 
-scen1Dir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/1_high_finalcosts_161221.csv"
-minegroupingsDir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Mine_groupings.csv"
-scen3Dir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/3_low_finalcosts_150420.csv"
-scen1byportDir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_byport.csv"
-scen5Dir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/5_partial_finalcosts.csv"
-scen7Dir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/7_lowimpact_shared_finalcosts.csv"
-#inpRast <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Data/Species/thresholdmaps/183sp/summed_presence/Summed_presence_183Sp.tif"
-#spInpDir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Data/Species/Species spreadsheets/Species_list_taxa_impacts.csv"
+scen1Dir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/1_high_finalcosts_161221.csv"
+minegroupingsDir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Mine_groupings.csv"
+scen3Dir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/3_low_finalcosts_150420.csv"
+scen1byportDir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/1_high_diffuse_biodiversity_byport.csv"
+scen5Dir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/5_partial_finalcosts.csv"
+scen7Dir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/7_lowimpact_shared_finalcosts.csv"
+#inpRast <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Data/Species/thresholdmaps/183sp/summed_presence/Summed_presence_183Sp.tif"
+#spInpDir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Data/Species/Species spreadsheets/Species_list_taxa_impacts.csv"
 
-outDirList <- c("C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/", "_diffuse_biodiversity_totals.csv")
-plotOutDir <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/figures/dataplots/183Sp_diffuse_rail4m_FINALSCENARIOS/"
+outDirList <- c("Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/", "_diffuse_biodiversity_totals.csv")
+plotOutDir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/figures/dataplots/183Sp_diffuse_rail4m_FINALSCENARIOS/"
 
 #library(vioplot)
 library(ggplot2)
@@ -275,7 +275,7 @@ DF5portlinks <- data.frame(aggregate(DFben$Len, by=list(DFben$groupings.Group_3)
 			)
 				
 names(DF5portlinks)[1:2] <- c("Group_3", "Len")
-write.csv(DF5portlinks, "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Totals_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
+write.csv(DF5portlinks, "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/Totals_diffuse_biodiversity_by5mineportlinks.csv", row.names=FALSE)		
 
 	
 #######################
@@ -316,12 +316,12 @@ p <- ggplot(plotDfSub, aes(x=Group3, y=PercContrib, fill=ScenOrdered))+
 	#coord_cartesian(xlim=c(0,780), ylim=c(0,0.75))+ #set x and y limits
 		labs(x="Mine-port link region", y="Biodiversity impact")+
 		theme(axis.title.x = element_text(vjust=-0.6),axis.title.y = element_text(vjust=1), axis.line.x = element_line(color="black"), axis.line.y = element_line(color="black"))+#move xylabels away from graph
-		theme(legend.position="bottom", legend.text=element_text(size=14))+#use 'none' to get rid of legend
+		theme(legend.position="top", legend.text=element_text(size=14))+#use 'none' to get rid of legend
 		theme(legend.title=element_blank())#get rid of legend title
 	
-outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_sub3.png")
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_printproof.png")
 	ggsave(filename=outPath)
-outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_sub3.pdf")
+outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_5mineportlinks_fig_printproof.pdf")
 	ggsave(filename=outPath)	
 	
 #Plot for manuscript - Submission 2
