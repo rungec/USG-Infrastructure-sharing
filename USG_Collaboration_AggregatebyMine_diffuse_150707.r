@@ -1,12 +1,10 @@
-inpDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_bymine.csv"
-inpDir1b <-"C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_data.csv"
-inpDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_totals.csv"
-#inpDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_infrastructure_v2.csv"
-outDir1 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_bymine_split.csv"
-outDir2 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_bymine.csv"
-outDir3 <- "C:/Claire/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/7_lowimpact_shared_finalcosts.csv"
-
-
+inpDir1 <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_bymine.csv"
+inpDir1b <-"Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_data.csv"
+inpDir2 <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_totals.csv"
+#inpDir3 <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_infrastructure_v2.csv"
+outDir1 <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_bymine_split.csv"
+outDir2 <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/7_lowimpact_shared_diffuse_biodiversity_bymine.csv"
+outDir3 <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final costs/7_lowimpact_shared_finalcosts.csv"
 
 ###########
 #Extract only the rows that are in scenario 5 (dataNum & dataOriginal were files  created by manually combining scenario 1 & scenario 3 files, this section deletes the unneeded rows) - only need to do this once
@@ -33,7 +31,7 @@ dataNum <- read.csv(inpDir1b)
 
 #Merge dataset
 #dataMerge <- merge(dataNum, dataOriginal[,c(1,2,12,13)], by.x=c("Id","Scen"), by.y=c("Id","Scen")) #scenario 5
-dataMerge <- merge(dataNum, dataOriginal[,c(1,2,5,6)], by.x=c("Id","Scen"), by.y=c("Id","Scen")) #scenario 7
+#dataMerge <- merge(dataNum, dataOriginal[,c(1,2,5,6)], by.x=c("Id","Scen"), by.y=c("Id","Scen")) #scenario 7
 
 #divide each column by the number of mines sharing the line
 oldData <- dataMerge[,c("Num_shared", "Area_km2", "Length_km", "Total.area.per.scenario", "Average.loss.per.species", "Sum.species.loss", "MEAN_NPV_p", "SUM_AgriPr", "Number.of.properties", "SumSpLoss", "SumSpLossDiffuse"),]

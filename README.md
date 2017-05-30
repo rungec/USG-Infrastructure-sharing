@@ -10,6 +10,15 @@ Big 5 most valuable mines: "Bhp Billiton", "Iluka", "Arrium", "Iron Road", "OZMi
 Discovered that mine-port link FID38 from scenario 1_high was allocated to Kingsgate, this should have been allocated to Centrex. Consequently FID6 shared of 1_high has 7 NumShared rather than 8. 
 Changes did not affect scenario 3, 5, 6 and were noticed before scenario 7 was made.
 
+##Notes following print proofing
+Discovered that I'd duplicated species Agrostis limitanea (snes)/Lachnagrostis limitanea (sdm). Though both are included in all summary output .xlsx & .csvs, I dropped Agrostis limitanea from the analysis, at the post-processing stage 
+USG_Collaboration_Diffuse_BiodivCosts_part4_141217.r - created xxx_diffuse_biodiversity_totals_dropAgrostisLimitanea.csv
+USG_Collaboration_Diffuse_BiodivCosts_part5_150529.r - created xxx_diffuse_biodiversity_total_byspecies_areas_dropAgrostisLimitanea.csv
+However, the impact on this species was very small, and did not affect scenarios 1 or 2. Change to total scecies impact in scenario 3 was ~0.03% to Minotaur only.
+For this reason, I didn't redo figures or recalculate totals (aggregated by USG_Collaboration_AggregatebyMine_diffuse_150707.r). I did however recalculate average species impact over denomenator 182 instead of 183 in USG_Collaboration_Plots_160705.r
+
+
+#######################################
 Manually edited  
 > 1_High_infrastructure_v2.shp
 > 1_bymine 

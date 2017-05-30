@@ -10,7 +10,7 @@ scen7Dir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/final cost
 #inpRast <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Data/Species/thresholdmaps/183sp/summed_presence/Summed_presence_183Sp.tif"
 #spInpDir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Data/Species/Species spreadsheets/Species_list_taxa_impacts.csv"
 
-outDirList <- c("Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/", "_diffuse_biodiversity_totals.csv")
+sppDir <- c("Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/tables/", "_diffuse_biodiversity_totals_dropAgrostisLimitanea.csv")
 plotOutDir <- "Y:/Data/GPEM_Postdoc/1_USG_Collaboration/Analysis/figures/dataplots/183Sp_diffuse_rail4m_FINALSCENARIOS/"
 
 #library(vioplot)
@@ -73,7 +73,7 @@ finNorm3port <- finBen3port/dataAll[dataAll$Scenario==3, "Len"]
 
 DFben <- data.frame(dataAll$Mine[1:28], dataAll$Len[1:28],bioBen3port,bioBen3portHomog, bioBen3portdirect, bioBen3portPer, bioBen3portHomogPer, finBen3port, finBen3portPer, numMine3port, numMine3portF, bioNorm3port3, bioNorm3port1, finNorm3port, groupings$Group_1, groupings$Group_2, groupings$Group_3)
 names(DFben)[1:2] <- c("Mine", "Len")
-write.csv(DFben, paste0(outDirList[1], "Data_for_plots_161221.csv"), row.names=FALSE)
+write.csv(DFben, paste0(sppDir[1], "Data_for_plots_161221.csv"), row.names=FALSE)
 
 
 #######################
@@ -104,18 +104,30 @@ tfin15
 #######################
 #statistical tests whether means are different between scenarios - by species
 #Calculate impacts by species
-spData1 <- read.csv(paste0(outDirList[1], "1_high", outDirList[2]), header=TRUE)
-spData3 <- read.csv(paste0(outDirList[1], "3_low", outDirList[2]), header=TRUE)
-spData5 <- read.csv(paste0(outDirList[1], "5_partial", outDirList[2]), header=TRUE)
-spData6 <- read.csv(paste0(outDirList[1], "6_lowimpact", outDirList[2]), header=TRUE)
-spData7 <- read.csv(paste0(outDirList[1], "7_lowimpact_shared", outDirList[2]), header=TRUE)
+spData1 <- read.csv(paste0(sppDir[1], "1_high", sppDir[2]), header=TRUE)
+spData3 <- read.csv(paste0(sppDir[1], "3_low", sppDir[2]), header=TRUE)
+spData5 <- read.csv(paste0(sppDir[1], "5_partial", sppDir[2]), header=TRUE)
+spData6 <- read.csv(paste0(sppDir[1], "6_lowimpact", sppDir[2]), header=TRUE)
+spData7 <- read.csv(paste0(sppDir[1], "7_lowimpact_shared", sppDir[2]), header=TRUE)
+
+#Drop Agrostis.limitanea
+notcols <- grep("Agrostis.limitanea", names(spData1))
+spData1 <- spData1[, -notcols]
+notcols <- grep("Agrostis.limitanea", names(spData3))
+spData3 <- spData3[, -notcols]
+notcols <- grep("Agrostis.limitanea", names(spData5))
+spData5 <- spData5[, -notcols]
+notcols <- grep("Agrostis.limitanea", names(spData6))
+spData6 <- spData6[, -notcols]
+notcols <- grep("Agrostis.limitanea", names(spData7))
+spData7 <- spData7[, -notcols]
 
 
-impactBySpeciesS1 <- matrix(colSums(spData1[,6:737]), ncol=4, byrow=TRUE)
-impactBySpeciesS3 <- matrix(colSums(spData3[,6:737]), ncol=4, byrow=TRUE)
-impactBySpeciesS5 <- matrix(colSums(spData5[,14:745]), ncol=4, byrow=TRUE)
-impactBySpeciesS6 <- matrix(colSums(spData6[,6:737]), ncol=4, byrow=TRUE)
-impactBySpeciesS7 <- matrix(colSums(spData7[,7:738]), ncol=4, byrow=TRUE)
+impactBySpeciesS1 <- matrix(colSums(spData1[,6:733]), ncol=4, byrow=TRUE)
+impactBySpeciesS3 <- matrix(colSums(spData3[,6:733]), ncol=4, byrow=TRUE)
+impactBySpeciesS5 <- matrix(colSums(spData5[,14:741]), ncol=4, byrow=TRUE)
+impactBySpeciesS6 <- matrix(colSums(spData6[,6:733]), ncol=4, byrow=TRUE)
+impactBySpeciesS7 <- matrix(colSums(spData7[,7:734]), ncol=4, byrow=TRUE)
 
 #total number of species impacted
 length(which(rowSums(impactBySpeciesS1)!=0))
@@ -509,7 +521,7 @@ outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_AgriLoss_fig.pdf")
 bioL <- list("3_low_diffuse_biodiversity_total_byspecies_areas.csv", "1_high_diffuse_biodiversity_total_byspecies_areas.csv")
 
 bioLDf <- lapply(bioL, function(x) {
-	currBio <- read.csv(paste0(outDirList[1], x))
+	currBio <- read.csv(paste0(sppDir[1], x))
 	currBio <- rowSums(matrix(colSums(currBio[,6:ncol(currBio)]), ncol=4, byrow=TRUE))#sum the impacts across the 4 impact classes (0m, 125m, 500m, 750m) for each species
 		})
 bioDF <- data.frame(Scenario=rep(c("Independent", "Shared"), each=183), BioAreaLost=unlist(bioLDf)*100)#convert km to 1000*ha
@@ -532,7 +544,7 @@ outPath <- paste0(plotOutDir, "USG_collab_Shared_vs_Unshared_HabitatAreaLoss.png
 #loss as % of total habitat
 bioL2 <- list("3_low_diffuse_biodiversity_totals.csv", "1_high_diffuse_biodiversity_totals.csv")
 bioLDf2 <- lapply(bioL2, function(x) {
-	currBio <- read.csv(paste0(outDirList[1], x))
+	currBio <- read.csv(paste0(sppDir[1], x))
 	currBio <- rowSums(matrix(colSums(currBio[,6:ncol(currBio)]), ncol=4, byrow=TRUE))#sum the impacts across the 4 impact classes (0m, 125m, 500m, 750m) for each species
 		})
 bioDF2 <- data.frame(Scenario=rep(c("Independent", "Shared"), each=183), BioAreaLost=unlist(bioLDf2))
